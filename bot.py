@@ -2,8 +2,9 @@
 
 from time import localtime
 import re
-import vk_api
 from random import randrange
+from copy import copy
+import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 from get_info import get_
 from DO_NOT_PUSH_TO_GIT import vk_token, admin_id
@@ -45,10 +46,26 @@ class Container(object):
         else:
             return False
 
+    def __len__(self):
+        return len(self.storage)
+
+    def __getitem__(self, i):
+        return self.storage[i]
+
+    def __iter__(self):
+        yield from self.storage
+
+    def __bool__(self):
+        if self.storage:
+            return True
+
+        return False
+
 
 class Bot(object):
     # TODO fix chats
     # TODO memorizing users' shifts
+    # TODO fix some strange things: date transforms but it mustn't
     def __init__(self, vk_session):
         self.vk_session = vk_session
         self.vk = self.vk_session.get_api()
@@ -130,42 +147,63 @@ class Bot(object):
 
     def inform(self, users, chats):
         """
-        Sends information message to every user which had subscribed.
-        :param users: array, which contains users' id
-        :param chats: array, which contains chats' id
+        Sends information message to every user/chat who/which had subscribed.
+        :param users: array, which contains arrays with user's id and shift
+        :param chats: array, which contains arrays with chat's id and shift
         """
-        if self.last_update:
-            date = self.last_update[0]
-            shift1 = self.last_update[1]
-            shift2 = self.last_update[2]
+        date = copy(self.last_update[0])
 
-            if [localtime()[2], localtime()[1]] == date:
-                text = str(date[0]) + " " + self.months[date[1] - 1] + "\n" \
-                       + shift1 + "\n" + shift2
-
-            else:
-                text = self.old_data_message
-        else:
-            text = self.old_data_message
+        flag = False
+        if self.last_update and [localtime()[2], localtime()[1]] == date:
+            date[1] = self.months[date[1] - 1]
+            date = " ".join([str(i) for i in date])
+            flag = True
 
         if users:
-            for id_ in users:
+            for j in users:
+                user = [int(i) for i in j.split()]
+                user = {"id": user[0], "shift": user[1]}
+
                 # Prevents sending message to user, who has banned bot
                 try:
+                    if not flag:
+                        self.vk.messages.send(
+                            user_id=user["id"],
+                            message=self.old_data_message,
+                            random_id=self.get_random_id()
+                        )
+
+                        continue
+
+                    # If information is relevant
                     self.vk.messages.send(
-                        user_id=int(id_),
-                        message=text,
+                        user_id=user["id"],
+                        message=date + "\n" + self.last_update[user["shift"]],
                         random_id=self.get_random_id()
                     )
+
                 except vk_api.exceptions.ApiError:
                     continue
 
         if chats:
-            for id_ in chats:
+            for j in chats:
+                chat = [int(i) for i in j.split()]
+                chat = {"id": chat[0], "shift": chat[1]}
+
                 try:
+                    if not flag:
+                        self.vk.messages.send(
+                            user_id=chat["id"],
+                            message=self.old_data_message,
+                            random_id=self.get_random_id()
+                        )
+
+                        continue
+
+                    # If information is relevant
                     self.vk.messages.send(
-                        user_id=int(id_),
-                        message=text,
+                        user_id=chat["id"],
+                        message=date + "\n" + self.last_update[chat["shift"]],
                         random_id=self.get_random_id()
                     )
                 except vk_api.exceptions.ApiError:
@@ -173,13 +211,28 @@ class Bot(object):
 
     def inform_event(self, event):
         """
-        Directs demanded information from event to main inform function
+        Sends information message for one certain user/chat.
         """
-        if event.from_user:
-            self.inform([event.user_id], False)
+        date = copy(self.last_update[0]) if self.last_update else False
 
-        elif event.from_chat:
-            self.inform([event.chat_id], False)
+        flag = False
+        if [localtime()[2], localtime()[1]] == date:
+            date[1] = self.months[date[1] - 1]
+            date = " ".join([str(i) for i in date])
+            flag = True
+
+        # If information is relevant
+        if flag:
+            """
+            Message:
+            1. <1st shift text>
+            2. <2nd shift text>
+            """
+            message = self.last_update[1] + "\n" + self.last_update[2]
+            self.send_message(event, message)
+
+        else:
+            self.send_message(event, self.old_data_message)
 
     def emergency(self, exception):
         """
@@ -194,14 +247,14 @@ class Bot(object):
 
     @staticmethod
     def get_random_id():
-        return randrange(0, 30 * (10**4))
+        return randrange(0, 10**6)
 
 
 class Manager(object):
     def __init__(self, vk_session):
         self.bot = Bot(vk_session)
 
-        updates_schedule_hours = [6, 11, 17]
+        updates_schedule_hours = [6, 11]
         self.updates_schedule = [i*60 for i in updates_schedule_hours]
         self.updates_happened = [False for i in self.updates_schedule]
         self.last_iteration_time = 0
@@ -258,9 +311,10 @@ class Manager(object):
                         if date:
                             # Updates flag
                             self.updates_happened[i] = True
+                            print(date, "befote")
                             self.bot.last_update = [date, shift1, shift2]
-                            self.bot.inform(self.bot.users_container.storage,
-                                            self.bot.chats_container.storage)
+                            self.bot.inform(self.bot.users_container,
+                                            self.bot.chats_container)
 
                         break
 
