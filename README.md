@@ -1,10 +1,12 @@
-In a nutshell:
+**In a nutshell:**
+
 VK-bot, based on python vk_api library. 
 It reports to subscribed users about extremely low 
 atmosphere's temperature, redirects city's government's
 edicts about school lessons.
 
-Lyric part:
+**Lyric part:**
+
 Russia is a big country. Siberia is part of Russia.
 It's cold in Russia. But you don't really know,
 how cold it is in siberia. It's much more colder,
@@ -24,13 +26,13 @@ Ow, it's so tediously. Maybe there's another way?
 I've searched for it and created this bot, which 
 reports to VK group subscribers real state of affairs.
 
-Links:
+**Links:**
 
 VK group, in which bot is placed: 
 https://vk.com/aktirovki_surgut
 
 
-Questions:
+**Questions:**
 
 Why VK? - VK is the most popular social network
 among Russian schoolboys, so I preferred it to all other
