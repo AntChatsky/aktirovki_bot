@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ru" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article# video: http://ogp.me/ns/video# ya: http://webmaster.yandex.ru/vocabularies/">
+ <head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-1417998-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-1417998-1');
+</script>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta charset="UTF-8">
+	<title>СООБЩЕНИЕ ОБ АКТИРОВКЕ</title>
+	<meta name="viewport" content="initial-scale=1">
+	<meta name="description" content="СООБЩЕНИЕ ОБ АКТИРОВКЕ">
+	<meta name="keywords" content="СООБЩЕНИЕ ОБ АКТИРОВКЕ">
+	 <!-- Start SmartBanner configuration -->
+<meta name="smartbanner:title" content="СургутИнформТВ">
+<meta name="smartbanner:author" content="на Apple">
+<meta name="smartbanner:price" content="БЕСПЛАТНО">
+<meta name="smartbanner:price-suffix-apple" content=" - на App Store">
+<meta name="smartbanner:icon-apple" content="/smb/sitv.png">
+<meta name="smartbanner:button" content="СКАЧАТЬ">
+<meta name="smartbanner:button-url-apple" content="itms-apps://itunes.apple.com/app/id557141715">
+<meta name="smartbanner:enabled-platforms" content="ios">
+<!-- End SmartBanner configuration -->
+	 
+<link rel="stylesheet" type="text/css" href="/hostcmsfiles/css/918d68399c1ac51747811372918be200.css?1547224008" />
+<script src="/hostcmsfiles/js/ebcc0540de27472f1f57f2a018e842ff.js"></script>
+  <script>new WOW().init();</script>
+ </head>
+ <body>
+  <div id="container">
+   <div id="header">
+  	<header>
+
+
+<div class="ban ban1">
+  <div id="b652758422"></div>
+  <script>showim("652758422","759","/upload/img/759.gif",1);</script>
+</div>
+    	<div id="line1">
+			<span id="logo"><a href="/"><img src="/mimg/sitvlogo.png" width="193" height="64" alt="СургутИнформТВ" title="СургутИнформТВ"></a></span>
+			<nav><span id="efir"><a href="/efir/c1/" title="Прямой эфир канала С1"><b>С1</b></a><a href="/efir/86/" title="Прямой эфир канала 86"><b>86</b></a></span></nav>
+			<span id="vozr">16+</span>
+			<span id="ticons">
+				<a href="/arhiv/news/rss/" class="icons rss"></a>
+				<!--noindex-->
+				<a href="https://vk.com/club131388"  rel="nofollow" class="icons vk"></a>
+				<a href="https://ok.ru/group/52582421627074" rel="nofollow" class="icons ok"></a>
+				<a href="https://www.facebook.com/sitv.ru" rel="nofollow" class="icons fb"></a>
+				<a href="https://www.instagram.com/sitv/" rel="nofollow" class="icons ig"></a>
+				<a href="https://twitter.com/surgutinformtv/" rel="nofollow" class="icons tw"></a>
+				<a href="https://www.youtube.com/channel/UCjSWozFwnQKG3R0APQZ0c6A" rel="nofollow" class="icons yt"></a>
+				<!--/noindex-->
+			</span>
+			<form id="sform" method="get" action="/search/"><input type="text" name="text" id="srchtxt"><img src="/mimg/fnd.svg" class="srchsub" alt=" " onclick="srshow()"></form>
+			<span id="l1r">
+				<span class="bell"><b>!</b></span>
+				<a href="/users/" class="enter">ВОЙТИ</a>
+			</span>
+		</div>
+		<div id="line2">
+		<nav>
+			<a href="/">НОВОСТИ</a>
+			<a href="/arhiv/">ТЕЛЕПРОГРАММЫ</a>
+			<a href="/business/">РЕКЛАМА</a>
+			<a href="/actirovka/">АКТИРОВКИ</a>
+		<span class="temp" title="Погода на Маяковского, 16">-28&deg;C</span>
+		</nav>
+		</div>
+		<div id="line3"><a href="/arhiv/news/tag/%D1%81%D1%83%D1%80%D0%B3%D1%83%D1%82">#сургут</a><a href="/arhiv/news/tag/%D0%BD%D0%B5%D1%84%D1%82%D0%B5%D1%8E%D0%B3%D0%B0%D0%BD%D1%81%D0%BA">#нефтеюганск</a><a href="/arhiv/news/tag/%D1%81%D1%83%D1%80%D0%B3%D1%83%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D1%80%D0%B0%D0%B9%D0%BE%D0%BD">#сургутский район</a><a href="/arhiv/news/tag/%D1%8E%D0%B3%D1%80%D0%B0">#югра</a><a href="/arhiv/news/tag/%D1%82%D1%8E%D0%BC%D0%B5%D0%BD%D1%81%D0%BA%D0%B0%D1%8F%20%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C">#тюменская область</a><a href="/arhiv/news/tag/%D0%B4%D1%82%D0%BF">#дтп</a><a href="/arhiv/news/tag/%D1%81%D0%BF%D0%BE%D1%80%D1%82">#спорт</a><a href="/arhiv/news/tag/%D0%B6%D0%BA%D1%85">#жкх</a>
+		</div>
+    </header>
+   </div><!--header-->
+<!-- Yandex.Metrika counter --> <script> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter1599151 = new Ya.Metrika({ id:1599151, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, trackHash:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/1599151" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
+<!--LiveInternet counter--><script>new Image().src = "//counter.yadro.ru/hit?r"+escape(document.referrer)+((typeof(screen)=="undefined")?"":";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+";h"+escape(document.title.substring(0,150))+";"+Math.random();</script><!--/LiveInternet-->
+<div id="mtop">
+    <div id="mcenter">
+ 
+
+<div itemscope="" itemtype="http://schema.org/BreadcrumbList" class="mhead"><span itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><a itemprop="item" title="Главная" href="/"><span itemprop="name">ГЛАВНАЯ</span></a></span>
+			/
+			СООБЩЕНИЕ ОБ АКТИРОВКЕ</div>
+<div class="activ"><h3>Среда, 30.01.19</h3><h2>Первая смена</h2><p>Администрация Сургута информирует, что в связи с низкой температурой воздуха отменяются занятия с 1 по 6 классы первой смены общеобразовательных школ г.Сургута.</p><h2>Вторая смена</h2><p>Администрация Сургута информирует, что в связи с низкой температурой воздуха отменяются занятия со 2 по 8 классы второй смены общеобразовательных школ г.Сургута.</p><br></div><h2>ПОСЛЕДНИЕ НОВОСТИ</h2>
+
+<div class="m3colwr">
+  <div class="m3col">
+    <a href="/arhiv/news/rasplata-za-remont-yugorchanin-za-slomannyj-televizor-otsudil-u-masterskoj-100-tysyach/">
+      <img src="/upload/information_system_15/1/1/5/item_115107/item_115107.jpg" class="pulse wow" alt="Расплата за ремонт. Югорчанин за сломанный телевизор отсудил у мастерской 100 тысяч" title="Расплата за ремонт. Югорчанин за сломанный телевизор отсудил у мастерской 100 тысяч" />
+    </a>
+    <div class="mdesc">
+      <div class="mtags">
+        <a href="/arhiv/news/tag/%D0%9D%D1%8F%D0%B3%D0%B0%D0%BD%D1%8C">#нягань</a>
+        <a href="/arhiv/news/tag/%D0%BF%D1%80%D0%B0%D0%B2%D0%B0%20%D0%BF%D0%BE%D1%82%D1%80%D0%B5%D0%B1%D0%B8%D1%82%D0%B5%D0%BB%D0%B5%D0%B9">#права потребителей</a>
+      </div>
+      <div class="mlab">
+        <a href="/arhiv/news/rasplata-za-remont-yugorchanin-za-slomannyj-televizor-otsudil-u-masterskoj-100-tysyach/">Расплата за ремонт. Югорчанин за сломанный телевизор отсудил у мастерской 100 тысяч</a>
+      </div>
+    </div>
+  </div>
+  <div class="m3col">
+    <a href="/arhiv/news/v-surgute-na-stoyanke-krupnogo-torgovogo-czentra-zagorelsya-ford-video/">
+      <img src="/upload/information_system_15/1/1/5/item_115108/item_115108.jpeg" class="pulse wow" alt="В Сургуте на стоянке крупного торгового центра загорелся «Форд». ВИДЕО" title="В Сургуте на стоянке крупного торгового центра загорелся «Форд». ВИДЕО" />
+    </a>
+    <div class="mdesc">
+      <div class="mtags">
+        <a href="/arhiv/news/tag/%D0%A1%D1%83%D1%80%D0%B3%D1%83%D1%82">#сургут</a>
+        <a href="/arhiv/news/tag/%D0%BF%D0%BE%D0%B6%D0%B0%D1%80">#пожар</a>
+      </div>
+      <div class="mlab">
+        <a href="/arhiv/news/v-surgute-na-stoyanke-krupnogo-torgovogo-czentra-zagorelsya-ford-video/">В Сургуте на стоянке крупного торгового центра загорелся «Форд». ВИДЕО</a>
+      </div>
+    </div>
+  </div>
+  <div class="m3col">
+    <a href="/arhiv/news/v-shkolax-surguta-mogut-obyavit-karantin-po-grippu-i-orvi/">
+      <img src="/upload/information_system_15/1/1/5/item_115112/item_115112.jpg" class="pulse wow" alt="В школах Сургута могут объявить карантин по гриппу и ОРВИ" title="В школах Сургута могут объявить карантин по гриппу и ОРВИ" />
+    </a>
+    <div class="mdesc">
+      <div class="mtags">
+        <a href="/arhiv/news/tag/%D0%A1%D1%83%D1%80%D0%B3%D1%83%D1%82">#сургут</a>
+        <a href="/arhiv/news/tag/%D0%BA%D0%B0%D1%80%D0%B0%D0%BD%D1%82%D0%B8%D0%BD">#карантин</a>
+      </div>
+      <div class="mlab">
+        <a href="/arhiv/news/v-shkolax-surguta-mogut-obyavit-karantin-po-grippu-i-orvi/">В школах Сургута могут объявить карантин по гриппу и ОРВИ</a>
+      </div>
+    </div>
+  </div>
+  <div class="m3col">
+    <a href="/arhiv/news/ne-vyderzhala-provodka-v-surgute-proizoshel-pozhar-v-devyatietazhke/">
+      <img src="/upload/information_system_15/1/1/5/item_115111/item_115111.jpg" class="pulse wow" alt="Не выдержала проводка. В Сургуте произошел пожар в девятиэтажке" title="Не выдержала проводка. В Сургуте произошел пожар в девятиэтажке" />
+    </a>
+    <div class="mdesc">
+      <div class="mtags">
+        <a href="/arhiv/news/tag/%D0%A1%D1%83%D1%80%D0%B3%D1%83%D1%82">#сургут</a>
+        <a href="/arhiv/news/tag/%D0%BF%D0%BE%D0%B6%D0%B0%D1%80">#пожар</a>
+      </div>
+      <div class="mlab">
+        <a href="/arhiv/news/ne-vyderzhala-provodka-v-surgute-proizoshel-pozhar-v-devyatietazhke/">Не выдержала проводка. В Сургуте произошел пожар в девятиэтажке</a>
+      </div>
+    </div>
+  </div>
+  <div class="m3col">
+    <a href="/arhiv/news/v-yugre-soversheno-vooruzhennoe-napadenie-na-otdelenie-alfa-banka/">
+      <img src="/upload/information_system_15/1/1/5/item_115102/item_115102.jpg" class="pulse wow" alt="В Югре совершено вооруженное нападение на отделение «Альфа-Банка»" title="В Югре совершено вооруженное нападение на отделение «Альфа-Банка»" />
+    </a>
+    <div class="mdesc">
+      <div class="mtags">
+        <a href="/arhiv/news/tag/%D0%9D%D0%B8%D0%B6%D0%BD%D0%B5%D0%B2%D0%B0%D1%80%D1%82%D0%BE%D0%B2%D1%81%D0%BA">#нижневартовск</a>
+        <a href="/arhiv/news/tag/%D0%BE%D0%B3%D1%80%D0%B0%D0%B1%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%B1%D0%B0%D0%BD%D0%BA%D0%B0">#ограбление банка</a>
+      </div>
+      <div class="mlab">
+        <a href="/arhiv/news/v-yugre-soversheno-vooruzhennoe-napadenie-na-otdelenie-alfa-banka/">В Югре совершено вооруженное нападение на отделение «Альфа-Банка»</a>
+      </div>
+    </div>
+  </div>
+  <div class="m3col">
+    <a href="/arhiv/news/dobiralis-40-minut-v-surgutskom-rajone-na-trasse-vspyxnul-tyagach/">
+      <img src="/upload/information_system_15/1/1/5/item_115105/item_115105.jpg" class="pulse wow" alt="Добирались 40 минут. В Сургутском районе на трассе вспыхнул тягач" title="Добирались 40 минут. В Сургутском районе на трассе вспыхнул тягач" />
+    </a>
+    <div class="mdesc">
+      <div class="mtags">
+        <a href="/arhiv/news/tag/%D1%81%D1%83%D1%80%D0%B3%D1%83%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D1%80%D0%B0%D0%B9%D0%BE%D0%BD">#сургутский район</a>
+        <a href="/arhiv/news/tag/%D0%BF%D0%BE%D0%B6%D0%B0%D1%80">#пожар</a>
+      </div>
+      <div class="mlab">
+        <a href="/arhiv/news/dobiralis-40-minut-v-surgutskom-rajone-na-trasse-vspyxnul-tyagach/">Добирались 40 минут. В Сургутском районе на трассе вспыхнул тягач</a>
+      </div>
+    </div>
+  </div>
+  <div class="m3col">
+    <a href="/arhiv/news/v-surgute-na-perekrestke-stolknulis-vaz-i-tojota-postradali-oba-voditelya/">
+      <img src="/upload/information_system_15/1/1/5/item_115136/item_115136.jpg" class="pulse wow" alt="В Сургуте на перекрестке столкнулись ВАЗ и «Тойота». Пострадали оба водителя" title="В Сургуте на перекрестке столкнулись ВАЗ и «Тойота». Пострадали оба водителя" />
+    </a>
+    <div class="mdesc">
+      <div class="mtags">
+        <a href="/arhiv/news/tag/%D0%A1%D1%83%D1%80%D0%B3%D1%83%D1%82">#сургут</a>
+        <a href="/arhiv/news/tag/%D0%B4%D1%82%D0%BF">#дтп</a>
+      </div>
+      <div class="mlab">
+        <a href="/arhiv/news/v-surgute-na-perekrestke-stolknulis-vaz-i-tojota-postradali-oba-voditelya/">В Сургуте на перекрестке столкнулись ВАЗ и «Тойота». Пострадали оба водителя</a>
+      </div>
+    </div>
+  </div>
+  <div class="m3col">
+    <a href="/arhiv/news/zarplate-svyshe-125-tysyach-v-surgute-ishhut-styuardessu-na-chastnyj-samolet/">
+      <img src="/upload/information_system_15/1/1/5/item_115137/item_115137.jpg" class="pulse wow" alt="Зарплата свыше 125 тысяч. В Сургуте ищут стюардессу на частный самолет" title="Зарплата свыше 125 тысяч. В Сургуте ищут стюардессу на частный самолет" />
+    </a>
+    <div class="mdesc">
+      <div class="mtags">
+        <a href="/arhiv/news/tag/%D0%A1%D1%83%D1%80%D0%B3%D1%83%D1%82">#сургут</a>
+        <a href="/arhiv/news/tag/%D0%B2%D0%B0%D0%BA%D0%B0%D0%BD%D1%81%D0%B8%D0%B8">#вакансии</a>
+      </div>
+      <div class="mlab">
+        <a href="/arhiv/news/zarplate-svyshe-125-tysyach-v-surgute-ishhut-styuardessu-na-chastnyj-samolet/">Зарплата свыше 125 тысяч. В Сургуте ищут стюардессу на частный самолет</a>
+      </div>
+    </div>
+  </div>
+  <div class="m3col">
+    <a href="/arhiv/news/zhizn-ne-uchit-surgutyanin-nakazannyj-za-narkotiki-uslovno-teper-syadet-pochti-na-5-let/">
+      <img src="/upload/information_system_15/1/1/5/item_115106/item_115106.jpg" class="pulse wow" alt="Жизнь не учит. Сургутянин, наказанный за наркотики условно, теперь сядет почти на 5 лет" title="Жизнь не учит. Сургутянин, наказанный за наркотики условно, теперь сядет почти на 5 лет" />
+    </a>
+    <div class="mdesc">
+      <div class="mtags">
+        <a href="/arhiv/news/tag/%D1%81%D1%83%D1%80%D0%B3%D1%83%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D1%80%D0%B0%D0%B9%D0%BE%D0%BD">#сургутский район</a>
+        <a href="/arhiv/news/tag/%D0%BD%D0%B0%D1%80%D0%BA%D0%BE%D1%82%D0%B8%D0%BA%D0%B8">#наркотики</a>
+      </div>
+      <div class="mlab">
+        <a href="/arhiv/news/zhizn-ne-uchit-surgutyanin-nakazannyj-za-narkotiki-uslovno-teper-syadet-pochti-na-5-let/">Жизнь не учит. Сургутянин, наказанный за наркотики условно, теперь сядет почти на 5 лет</a>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="btn"><a href="/arhiv/news/">ВСЕ НОВОСТИ</a></div>    </div><!--mcenter-->
+   </div><!--mtop-->
+   <div id="mleft">
+	<aside>
+
+<h3>
+  <a href="/arhiv/delo/">ДЕЛОВЫЕ НОВОСТИ</a>
+</h3>
+
+
+<div class="ban ban2">
+  <div id="b652758423"></div>
+  <script>showim("652758423","761","/upload/img/761.gif",1);</script>
+  <a href="/business/internet">реклама на sitv.ru</a>
+</div>
+
+
+<div class="ban ban3"></div>
+
+
+<section>
+  <h3>КАРТИНА ДНЯ</h3>
+  <div id="newslenta">
+    <div class="mlenta">
+      <span class="mtime">22:00 29.01.2019</span>
+      <a href="/arhiv/news/personalnoe-priglashenie-na-vstrechu-s-xabibom-nurmagomedovym-v-surgute-budut-puskat-tolko-po-biletam/">Персональное приглашение. На встречу с Хабибом Нурмагомедовым в Сургуте будут пускать только по билетам</a>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">21:41 29.01.2019</span>
+      <a href="/arhiv/news/konkurs-robofest-pomozhet-tyumenskim-shkolnikam-v-budushhem-pri-postuplenii-v-vuz/">Конкурс «Робофест» поможет тюменским школьникам в будущем при поступлении в вуз</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">21:10 29.01.2019</span>
+      <a href="/arhiv/news/tri-ratnyx-polya-rossii-obedinyaet-vsyo-bolshe-uvlechennyj-istoriej-surgutyan/">«Три ратных поля России» объединяет всё больше увлеченный историей сургутян</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">20:54 29.01.2019</span>
+      <a href="/arhiv/news/temperatura-nizhe-bditelnost-vyshe-kommunalshhiki-surgutskogo-rajona-gotovy-operativno-ustranyat-avarii/">К морозам подготовились. Коммунальщики Сургутского района работают в усиленном режиме</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta"><span class="mtime">20:26 29.01.2019</span><a href="/arhiv/news/v-surgute-zhenshhina-voditel-razbila-tri-mashiny-pytayas-vyexat-s-zapravki/">В Сургуте женщина-водитель разбила три машины, пытаясь выехать с заправки</a><br /><span class="comm"></span>1</div>
+    <div class="mlenta">
+      <span class="mtime">20:02 29.01.2019</span>
+      <a href="/arhiv/news/v-stolicze-yugry-lovili-muzhchinu-v-trusax-i-s-nozhami-okazalos-paczient-pnd/">В столице Югры ловили  мужчину в трусах и с ножами – оказалось, пациент ПНД</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">19:34 29.01.2019</span>
+      <a href="/arhiv/news/v-gibdd-surgutskogo-rajona-novyj-nachalnik/">В ГИБДД Сургутского района новый начальник </a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta imp1">
+      <span class="mtime">18:38 29.01.2019</span>
+      <a href="/arhiv/news/poseshhenij-net-v-chetyrex-bolniczax-surguta-karantin-po-orvi-i-grippu/">Посещений нет. В четырех больницах Сургута - карантин по ОРВИ и гриппу</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">18:16 29.01.2019</span>
+      <a href="/arhiv/news/neskolko-shkol-v-stolicze-yugry-evakuirovali-iz-za-soobshhenij-ob-ugroze-vzryva/">Несколько школ в столице Югры эвакуировали из-за сообщений об угрозе взрыва</a>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">17:39 29.01.2019</span>
+      <a href="/arhiv/news/mnogodetnye-semi-tyumenskoj-oblasti-budut-platit-za-vyvoz-musora-menshe-esli-primut-zakon/">Многодетные семьи Тюменской области будут платить за вывоз мусора меньше, если примут закон</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">17:01 29.01.2019</span>
+      <a href="/arhiv/news/skoro-surgut-gotovitsya-k-vstreche-chempiona-mira-po-smeshannym-edinoborstvam/">СКОРО: Сургут готовится к встрече чемпиона мира по смешанным единоборствам</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">16:30 29.01.2019</span>
+      <a href="/arhiv/news/kogda-xajp-uzhe-ne-v-radost-v-tyumeni-arestovany-blogery-za-vyxodku-s-oruzhiem/">Когда хайп уже не в радость. В Тюмени арестованы блогеры за выходку с оружием</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta imp1">
+      <span class="mtime">15:56 29.01.2019</span>
+      <a href="/arhiv/news/v-rossii-s-fevralya-uvelichitsya-razmer-soczialnyx-posobij/">В России с февраля увеличится размер социальных пособий</a>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">15:24 29.01.2019</span>
+      <a href="/arhiv/news/surovye-reki-yugry-na-udivlenie-rybaka-iz-irtysha-zabil-gazovyj-fontan/">Суровые реки Югры. На удивление рыбака, из Иртыша забил газовый фонтан</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">14:48 29.01.2019</span>
+      <a href="/arhiv/news/menshe-morshhin-ne-stanet-no-kozha-ochistitsya-razveivaem-mify-o-bane/">Меньше морщин не станет, но кожа очистится: развеиваем мифы о бане</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">14:13 29.01.2019</span>
+      <a href="/arhiv/news/borba-so-stixijnymi-svalkami-v-tyumenskoj-oblasti-otkrylsya-musorosortirovochnyj-zavod/">Борьба со стихийными свалками. В Тюменской области открылся мусоросортировочный завод</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta imp1">
+      <span class="mtime">13:41 29.01.2019</span>
+      <a href="/arhiv/news/na-dalnem-vostoke-pojman-moshennik-zhertvami-kotorogo-stali-100-surgutyan/">На Дальнем Востоке пойман мошенник, жертвами которого стали 100 сургутян</a>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">13:10 29.01.2019</span>
+      <a href="/arhiv/news/izlom-ot-290119/">Излом от 29.01.19</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta imp1">
+      <span class="mtime">12:36 29.01.2019</span>
+      <a href="/arhiv/news/raboty-sotrudnikov-stv-priznany-luchshimi-na-konkurse-moj-vybor-surgutskogo-rajona/">Работы сотрудников СТВ признаны лучшими на конкурсе «Мой выбор» Сургутского района</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">12:05 29.01.2019</span>
+      <a href="/arhiv/news/zloupotrebila-doveriem-buxgalter-v-surgute-obokrala-firmu-na-3-milliona/">Злоупотребила доверием. Бухгалтер в Сургуте обокрала фирму на 3 миллиона</a>
+    </div>
+    <div class="mlenta imp1">
+      <span class="mtime">11:28 29.01.2019</span>
+      <a href="/arhiv/news/chto-to-s-golovoj-advokat-ugonshhika-shapovalova-nameren-vytashhit-ego-iz-pod-strazhi/">«Что-то с головой»: адвокат «угонщика» Шаповалова намерен вытащить его из-под стражи</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">10:53 29.01.2019</span>
+      <a href="/arhiv/news/v-yugre-zaderzhali-naletchikov-na-magazin-ranivshix-prodavshhiczu/">В Югре задержали налетчиков на магазин, ранивших продавщицу</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+    <div class="mlenta imp1">
+      <span class="mtime">10:17 29.01.2019</span>
+      <a href="/arhiv/news/zarplate-svyshe-125-tysyach-v-surgute-ishhut-styuardessu-na-chastnyj-samolet/">Зарплата свыше 125 тысяч. В Сургуте ищут стюардессу на частный самолет</a>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">09:41 29.01.2019</span>
+      <a href="/arhiv/news/v-surgute-na-perekrestke-stolknulis-vaz-i-tojota-postradali-oba-voditelya/">В Сургуте на перекрестке столкнулись ВАЗ и «Тойота». Пострадали оба водителя</a>
+    </div>
+    <div class="mlenta">
+      <span class="mtime">20:37 28.01.2019</span>
+      <a href="/arhiv/news/visit-tuumen-v-tyumenskoj-oblasti-razrabatyvayut-bolshoj-proekt-dlya-turistov/">«Visit Tуumen»: в Тюменской области разрабатывают большой проект для туристов</a>
+      <br />
+      <span class="vid"></span>
+    </div>
+  </div>
+</section>
+			
+		<div class="btn"><a href="/arhiv/news/">ВСЕ НОВОСТИ</a></div>
+
+
+			
+<section>
+	<div id="msocial">
+	<h3>МЫ В СОЦСЕТЯХ</h3>
+	<span id="socb1" class="icons vkb soccur" onclick="pshow(1)"></span>
+	<span id="socb2" class="icons okb" onclick="pshow(2)"></span>
+	<span id="socb3" class="icons fbb" onclick="pshow(3)"></span>
+	<span id="socb4" class="icons igb" onclick="pshow(4)"></span>
+	<span id="socb5" class="icons twb" onclick="pshow(5)"></span>
+	<div id="socp1"></div>
+	<div id="socp2"></div>
+	<div id="socp3">
+	<div id="fb-root"></div>
+	<div class="fb-page" data-href="https://www.facebook.com/sitv.ru/" data-tabs="timeline" data-width="240" data-height="415" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/sitv.ru/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/sitv.ru/">СургутИнформТВ</a></blockquote>	</div></div>
+	<div id="socp4">
+	<iframe src="//widget.instagramm.ru/?imageW=2&imageH=3&thumbnail_size=107&type=0&typetext=sitv&head_show=1&profile_show=0&shadow_show=0&bg=255,255,255,1&opacity=true&head_bg=46729b&subscribe_bg=ad4141&border_color=c3c3c3&head_title=" allowtransparency="true" frameborder="0" scrolling="no" style="border:none;overflow:hidden;width:240px;height:411px;"></iframe>	
+	</div>	
+	<div id="socp5">
+		<a class="twitter-timeline"  href="https://twitter.com/surgutinformtv" data-widget-id="333638102990061568">Твиты от @surgutinformtv</a>
+	</div>
+</div>
+</section>
+</aside>
+   </div><!--mleft-->		
+		<div id="footer">
+		<footer>
+			<nav>
+			<div class="footmenu">
+
+<div class="col">
+  <h4>
+    <a href="http://stvdigital.ru" title="РЕКЛАМОДАТЕЛЯМ">РЕКЛАМОДАТЕЛЯМ</a>
+  </h4>
+  <ul>
+    <li>
+      <a href="http://stvdigital.ru/tv" title="РЕКЛАМА НА ТВ">РЕКЛАМА НА ТВ</a>
+    </li>
+    <li>
+      <a href="http://stvdigital.ru/tv" title="РЕКЛАМА НА РАДИО">РЕКЛАМА НА РАДИО</a>
+    </li>
+    <li>
+      <a href="/business/internet/" title="РЕКЛАМА В ИНТЕРНЕТ">РЕКЛАМА В ИНТЕРНЕТ</a>
+    </li>
+  </ul>
+</div>
+
+
+<div class="col">
+  <h4>
+    <a href="/program/" title="ТЕЛЕПЕРЕДАЧИ">ТЕЛЕПЕРЕДАЧИ</a>
+  </h4>
+  <ul>
+    <li>
+      <a href="/program/news/" title="НОВОСТИ СУРГУТА">НОВОСТИ СУРГУТА</a>
+    </li>
+    <li>
+      <a href="/program/tiptop/" title="ТИП-ТОП НОВОСТИ">ТИП-ТОП НОВОСТИ</a>
+    </li>
+    <li>
+      <a href="/program/itogi/" title="ИТОГИ НЕДЕЛИ">ИТОГИ НЕДЕЛИ</a>
+    </li>
+    <li>
+      <a href="/program/vstavay/" title="ВСТАВАЙ">ВСТАВАЙ</a>
+    </li>
+    <li>
+      <a href="/program/zaskobkami/" title="ЗА)...(СКОБКАМИ">ЗА)...(СКОБКАМИ</a>
+    </li>
+    <li>
+      <a href="/program/comments/" title="НОВОСТИ-КОММЕНТАРИЙ">НОВОСТИ-КОММЕНТАРИЙ</a>
+    </li>
+  </ul>
+</div>
+
+
+<div class="col">
+  <h4>
+    <a href="/projects/" title="СПЕЦПРОЕКТЫ">СПЕЦПРОЕКТЫ</a>
+  </h4>
+  <ul>
+    <li>
+      <a href="/projects/teacher/" title="МОЙ УЧИТЕЛЬ">МОЙ УЧИТЕЛЬ</a>
+    </li>
+    <li>
+      <a href="/projects/polosa/" title="ПОЛОСА УДАЧИ">ПОЛОСА УДАЧИ</a>
+    </li>
+    <li>
+      <a href="/projects/nadejda/" title="ИСТОРИЯ НАДЕЖДЫ">ИСТОРИЯ НАДЕЖДЫ</a>
+    </li>
+    <li>
+      <a href="/projects/school/" title="СТВ-ШКОЛА">СТВ-ШКОЛА</a>
+    </li>
+    <li>
+      <a href="/projects/GZH/" title="НАРОДНЫЕ НОВОСТИ">НАРОДНЫЕ НОВОСТИ</a>
+    </li>
+  </ul>
+</div>
+
+
+<div class="col">
+  <h4>
+    <a href="/about/" title="О ТЕЛЕКОМПАНИИ">О ТЕЛЕКОМПАНИИ</a>
+  </h4>
+  <ul>
+    <li>
+      <a href="/about/about/" title="О ТЕЛЕКОМПАНИИ">О ТЕЛЕКОМПАНИИ</a>
+    </li>
+    <li>
+      <a href="/about/group/boss/" title="КОМАНДА">КОМАНДА</a>
+    </li>
+    <li>
+      <a href="/about/years/" title="ИСТОРИЯ СТВ">ИСТОРИЯ СТВ</a>
+    </li>
+    <li>
+      <a href="/about/foto/" title="ФОТОАЛЬБОМ">ФОТОАЛЬБОМ</a>
+    </li>
+    <li>
+      <a href="/about/vacansy/" title="ВАКАНСИИ">ВАКАНСИИ</a>
+    </li>
+    <li>
+      <a href="/about/contacts/" title="КОНТАКТЫ">КОНТАКТЫ</a>
+    </li>
+  </ul>
+</div>
+
+
+<div class="col">
+  <h4>
+    <a href="/radio/" title="О РАДИО">О РАДИО</a>
+  </h4>
+  <ul>
+    <li>
+      <a href="/radio/radio7/" title="РАДИО 7">РАДИО 7</a>
+    </li>
+    <li>
+      <a href="/radio/efir/" title="НАШ ЭФИР">НАШ ЭФИР</a>
+    </li>
+    <li>
+      <a href="/radio/arhiv/" title="ИНТЕРЕСНЫЙ АРХИВ">ИНТЕРЕСНЫЙ АРХИВ</a>
+    </li>
+    <li>
+      <a href="/radio/parthners/" title="ПАРТНЕРЫ РАДИО 7">ПАРТНЕРЫ РАДИО 7</a>
+    </li>
+  </ul>
+</div>
+</div>
+</nav>
+ <div class="partner">Наши партнеры: <!--noindex--><a href="http://www.sfil.ru/" rel="nofollow" title="Сургутская Филармония"><img src="/mimg/sfil.png" alt="Сургутская Филармония"></a>&nbsp;<a href="http://www.slib.ru/" rel="nofollow" title="Централизованная библиотечная система г.Сургута"><img src="/mimg/slib.png" alt="Централизованная библиотечная система г.Сургута"></a>&nbsp;<a href="https://www.ugra-news.ru/medias/1/" rel="nofollow" title="Сургутская трибуна"><img src="/mimg/stribuna.png" alt="Сургутская трибуна"></a>&nbsp;<a href="http://юрист-сургут.рф" rel="nofollow" title="Югорский СоветникЪ"><img src="/mimg/us.png" alt="Югорский СоветникЪ"></a><!--/noindex--></div>
+ <div class="orfo">Заметили ошибку в тексте ? Выделите текст ошибки и нажмите Ctrl+Enter</div>
+ <div id="afoot">
+  <div id="hist">© [ ( СТВ 1990 - 2019 ) ]</div>
+  <div id="cont"><div>Обратная связь:<br>Редакция<br>Админстрация сайта<br>Рекламодателям</div>
+  <div><br><script>//<![CDATA[
+function hostcmsEmail(c){return c.replace(/[a-zA-Z]/g, function (c){return String.fromCharCode((c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c-26);})}document.write ('<a  href="mailto:' + hostcmsEmail('arjf@fvgi.eh') + '">' + hostcmsEmail('arjf@fvgi.eh') + '</a>');//]]>
+</script><br><script>//<![CDATA[
+function hostcmsEmail(c){return c.replace(/[a-zA-Z]/g, function (c){return String.fromCharCode((c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c-26);})}document.write ('<a  href="mailto:' + hostcmsEmail('jroznfgre@fvgi.eh') + '">' + hostcmsEmail('jroznfgre@fvgi.eh') + '</a>');//]]>
+</script><br><script>//<![CDATA[
+function hostcmsEmail(c){return c.replace(/[a-zA-Z]/g, function (c){return String.fromCharCode((c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c-26);})}document.write ('<a  href="mailto:' + hostcmsEmail('erxynzn@fvgi.eh') + '">' + hostcmsEmail('erxynzn@fvgi.eh') + '</a>');//]]>
+</script></div></div>
+  <div id="lic">Текст, графические изображения, видеоматериалы и другие элементы содержания и оформления, являются собственностью Закрытого акционерного общества Телекомпания «СургутИнформТВ». Все компоненты Сайта защищены авторским правом и иными законами, регулирующими права интеллектуальной собственности. <a href="/licensing/">Условия использования сайта.</a></div>
+ </div>
+          <div class="counter">
+<!--noindex-->
+<!--start host script -->
+<script>
+js_v="1.0";path="rand="+Math.random()+"&id=2&refer="+escape(document.referrer)+"&amp;current_page="+escape(window.location.href);
+document.cookie="hostmake=1; path=/"; path+="&cookie="+(document.cookie?"Y":"N");
+</script>
+<script>path+="&js_version="+js_v;
+document.write("<img src='/counter/counter.php?"+path+"&counter=0' alt=\"\" width=\"1\" height=\"1\">")
+</script><noscript><img src="/counter/counter.php?id=1&counter=0" alt="" width="1" height="1"></noscript>
+<!--end host script -->
+
+<!-- Yandex.Metrika informer --> <a href="https://metrika.yandex.ru/stat/?id=1599151&amp;from=informer" target="_blank" rel="nofollow"><img src="https://informer.yandex.ru/informer/1599151/3_1_FFFFFFFF_EFEFEFFF_0_pageviews" style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" class="ym-advanced-informer" data-cid="1599151" data-lang="ru" /></a> <!-- /Yandex.Metrika informer -->
+<!-- UralWeb counter-->
+<script>
+document.write('<span id="uralweb-hc">'+'</'+'span>');
+(function() {
+var hc = document.createElement('script'); hc.type = 'text/javascript'; hc.async = true; hc.src = 'https://j.uralweb.ru/js/sitv.ru';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(hc, s);
+})();
+</script>
+<!-- end of counter UralWeb -->
+
+<!-- Top100 (Kraken) Widget -->
+<span id="top100_widget"></span>
+<!-- END Top100 (Kraken) Widget -->
+
+<!-- Top100 (Kraken) Counter -->
+<script>
+    (function (w, d, c) {
+    (w[c] = w[c] || []).push(function() {
+        var options = {
+            project: 1541858,
+            element: 'top100_widget',
+        };
+        try {
+            w.top100Counter = new top100(options);
+        } catch(e) { }
+    });
+    var n = d.getElementsByTagName("script")[0],
+    s = d.createElement("script"),
+    f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src =
+    (d.location.protocol == "https:" ? "https:" : "http:") +
+    "//st.top100.ru/top100/top100.js";
+
+    if (w.opera == "[object Opera]") {
+    d.addEventListener("DOMContentLoaded", f, false);
+} else { f(); }
+})(window, document, "_top100q");
+</script>
+<noscript>
+  <img src="//counter.rambler.ru/top100.cnt?pid=1541858" alt="Топ-100" />
+</noscript>
+<!-- END Top100 (Kraken) Counter -->
+
+<!-- Rating@Mail.ru logo -->
+<a href="https://top.mail.ru/jump?from=1538096">
+<img src="//top-fwz1.mail.ru/counter?id=1538096;t=419;l=1" 
+style="border:0;" height="31" width="88" alt="Рейтинг@Mail.ru" /></a>
+<!-- //Rating@Mail.ru logo -->
+
+<!-- Rating@Mail.ru counter -->
+<script type="text/javascript">
+var _tmr = window._tmr || (window._tmr = []);
+_tmr.push({id: "1538096", type: "pageView", start: (new Date()).getTime()});
+(function (d, w, id) {
+  if (d.getElementById(id)) return;
+  var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+  ts.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//top-fwz1.mail.ru/js/code.js";
+  var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+  if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+})(document, window, "topmailru-code");
+</script><noscript><div>
+<img src="//top-fwz1.mail.ru/counter?id=1538096;js=na" style="border:0;position:absolute;left:-9999px;" alt="" />
+</div></noscript>
+<!-- //Rating@Mail.ru counter -->
+
+<!--LiveInternet logo--><a href="//www.liveinternet.ru/click"
+target="_blank"><img src="//counter.yadro.ru/logo?14.6"
+title="LiveInternet: показано число просмотров за 24 часа, посетителей за 24 часа и за сегодня"
+alt="" width="88" height="31"/></a>
+<!--/LiveInternet-->
+<!--/noindex-->
+</div>
+    </footer>
+   </div>
+  </div>
+</body></html>
