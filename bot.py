@@ -5,14 +5,15 @@ import re
 from random import randrange
 from copy import copy
 import vk_api
+from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.longpoll import VkLongPoll, VkEventType
 from get_info import get_
 from DO_NOT_PUSH_TO_GIT import vk_token, admin_id
 
 
 class Container(object):
-    def __init__(self, file_name):
-        self.file_name = file_name
+    def __init__(self, file_path):
+        self.file_path = file_path
         self.storage = self.get_variables()
 
     def get_variables(self):
@@ -21,7 +22,7 @@ class Container(object):
         of Container object.
         """
         result = []
-        with open(self.file_name, "r") as f:
+        with open(self.file_path, "r") as f:
             for line in f:
                 if line[-1:] == "\n":
                     result.append(line[:-1])
@@ -36,7 +37,7 @@ class Container(object):
         """
         # If element hadn't been added before
         if str(elem) not in self.storage:
-            with open(self.file_name, "a") as f:
+            with open(self.file_path, "a") as f:
                 f.write(str(elem) + "\n")
 
             self.storage.append(str(elem))
@@ -64,8 +65,6 @@ class Container(object):
 
 class Bot(object):
     # TODO fix chats
-    # TODO memorizing users' shifts
-    # TODO fix some strange things: date transforms but it mustn't
     def __init__(self, vk_session):
         self.vk_session = vk_session
         self.vk = self.vk_session.get_api()
@@ -78,12 +77,15 @@ class Bot(object):
         self.months = ["января", "февраля", "марта", "апреля", "мая",
                        "июня", "июля", "августа", "сентября", "октября",
                        "ноября", "декабря"]
+        self.shifts = {"Первая смена": "1", "Вторая смена": "2"}
 
         self.last_update = []
         self.old_data_message = "Нет достоверной информации."
 
         self.messages_callback = {"Я хочу получать уведомления об актировках.":
-                                  self.add_to_inform,
+                                  self.get_shift,
+                                  "Первая смена": self.add_to_inform,
+                                  "Вторая смена": self.add_to_inform,
                                   "Что по актировкам?": self.inform_event
                                   }
         self.messages_answers = {}
@@ -121,6 +123,31 @@ class Bot(object):
                 random_id=self.get_random_id()
             )
 
+    def send_keyboard(self, event, message_, keyboard_):
+        if event.from_user:
+            self.vk.messages.send(
+                user_id=event.user_id,
+                message=message_,
+                keyboard=keyboard_,
+                random_id=self.get_random_id()
+            )
+
+        elif event.from_chat:
+            self.vk.messages.send(
+                chat_id=event.chat_id,
+                message=message_,
+                keyboard=keyboard_,
+                random_id=self.get_random_id()
+            )
+
+    def get_shift(self, event):
+        keyboard_ = VkKeyboard(one_time=True)
+        keyboard_.add_button("Первая смена")
+        keyboard_.add_button("Вторая смена", color=VkKeyboardColor.PRIMARY)
+
+        self.send_keyboard(event, "Выбери смену, в которой ты учишься",
+                           keyboard_.get_keyboard())
+
     def add_to_inform(self, event):
         """
         Adds chat's or user's id to container file.
@@ -132,14 +159,22 @@ class Bot(object):
 
         if event.from_user:
             # If user's already been added to database
-            if not self.users_container.add(event.user_id):
+            if (str(event.user_id) + " " + self.shifts[event.text]) \
+                    not in self.users_container:
+                result = str(event.user_id) + " " + self.shifts[event.text]
+
+                self.users_container.add(result)
                 self.send_message(event, sucess_message)
 
             else:
                 self.send_message(event, decline_message)
 
         elif event.from_chat:
-            if not self.chats_container.add(event.chat_id):
+            if (str(event.chat_id) + " " + self.shifts[event.text]) \
+                    not in self.chats_container:
+                result = str(event.chat_id) + " " + self.shifts[event.text]
+
+                self.chats_container.add(result)
                 self.send_message(event, sucess_message)
 
             else:
@@ -311,7 +346,7 @@ class Manager(object):
                         if date:
                             # Updates flag
                             self.updates_happened[i] = True
-                            print(date, "befote")
+
                             self.bot.last_update = [date, shift1, shift2]
                             self.bot.inform(self.bot.users_container,
                                             self.bot.chats_container)
