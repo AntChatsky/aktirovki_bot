@@ -71,24 +71,52 @@ class Bot(object):
 
         self.longpoll = VkLongPoll(self.vk_session)
 
-        self.users_container = Container("users.txt")
-        self.chats_container = Container("chats.txt")
+        self.users_container = Container("containers/users.txt")
+        self.chats_container = Container("containers/chats.txt")
 
         self.months = ["января", "февраля", "марта", "апреля", "мая",
                        "июня", "июля", "августа", "сентября", "октября",
                        "ноября", "декабря"]
         self.shifts = {"Первая смена": "1", "Вторая смена": "2"}
 
-        self.last_update = []
-        self.old_data_message = "Нет достоверной информации."
+        self.irrelevant_data_message = "Нет актуальной информации."
+        self.help_message = "Хочешь воспользоваться моими командами? Выбери " \
+                            "одну из них при помощи клавиатуры или напиши " \
+                            'мне "список команд"'
+        self.list_of_commands = "Напиши мне команду, чтобы " \
+                                "воспользоваться ей. \n" \
+                                "Cписок и описание моих команд:\n" \
+                                '"Получать уведомления об актировках"' \
+                                "- я предложу вам выбрать смену, в " \
+                                "которой вы обучаетесь, чтобы информировать " \
+                                "вас об актировках при появлении информации " \
+                                "о них.\n" \
+                                '"Больше не получать уведомления"' \
+                                "- я больше не буду присылать вам " \
+                                "уведомления 😢😢😢\n" \
+                                '"Актуальная информация"' \
+                                "- я сообщу вам самую свежую информацию об " \
+                                "актировках сегодня для обоих смен."
 
-        self.messages_callback = {"Я хочу получать уведомления об актировках.":
-                                  self.get_shift,
+        self.last_update = []
+
+        self.messages_callback = {"Получать уведомления об актировках":
+                                      self.get_shift,
                                   "Первая смена": self.add_to_inform,
                                   "Вторая смена": self.add_to_inform,
-                                  "Что по актировкам?": self.inform_event
+                                  "Больше не получать уведомления":
+                                      self.exclude_from_informing,
+                                  "Актуальная информация": self.inform_event
                                   }
-        self.messages_answers = {}
+        self.messages_answers = {"Список команд": self.list_of_commands}
+
+        self.messages_callback = {self.text_processing(key): value
+                                  for key, value
+                                  in self.messages_callback.items()}
+
+        self.messages_answers = {self.text_processing(key): value
+                                 for key, value
+                                 in self.messages_answers.items()}
 
     def listen(self):
         """
@@ -99,14 +127,16 @@ class Bot(object):
             print("***")
             if event.type == VkEventType.MESSAGE_NEW and event.text \
                     and event.to_me:
-                if event.text in self.messages_callback:
-                    self.messages_callback[event.text](event)
+                text = self.text_processing(event.text)
 
-                elif event.text in self.messages_answers:
-                    self.send_message(event, self.messages_answers[event.text])
+                if text in self.messages_callback:
+                    self.messages_callback[text](event)
+
+                elif text in self.messages_answers:
+                    self.send_message(event, self.messages_answers[text])
 
                 else:
-                    self.send_message(event, "Прости, я тебя не понимаю")
+                    self.help(event)
 
     def send_message(self, event, text):
         if event.from_user:
@@ -139,6 +169,24 @@ class Bot(object):
                 keyboard=keyboard_,
                 random_id=self.get_random_id()
             )
+
+    def help(self, event):
+        """
+        Sends user keyboard with main commands.
+        """
+        keyboard_ = VkKeyboard(one_time=False)
+
+        keyboard_.add_button("Получать уведомления об актировках",
+                             color=VkKeyboardColor.PRIMARY)
+
+        keyboard_.add_line()
+        keyboard_.add_button("Больше не получать уведомления")
+
+        keyboard_.add_line()
+        keyboard_.add_button("Актуальная информация",
+                             color=VkKeyboardColor.PRIMARY)
+
+        self.send_keyboard(event, self.help_message, keyboard_.get_keyboard())
 
     def get_shift(self, event):
         keyboard_ = VkKeyboard(one_time=True)
@@ -180,7 +228,7 @@ class Bot(object):
             else:
                 self.send_message(event, decline_message)
 
-    def inform(self, users, chats):
+    def inform(self):
         """
         Sends information message to every user/chat who/which had subscribed.
         :param users: array, which contains arrays with user's id and shift
@@ -194,8 +242,8 @@ class Bot(object):
             date = " ".join([str(i) for i in date])
             flag = True
 
-        if users:
-            for j in users:
+        if self.users_container:
+            for j in self.users_container:
                 user = [int(i) for i in j.split()]
                 user = {"id": user[0], "shift": user[1]}
 
@@ -204,7 +252,7 @@ class Bot(object):
                     if not flag:
                         self.vk.messages.send(
                             user_id=user["id"],
-                            message=self.old_data_message,
+                            message=self.irrelevant_data_message,
                             random_id=self.get_random_id()
                         )
 
@@ -220,8 +268,8 @@ class Bot(object):
                 except vk_api.exceptions.ApiError:
                     continue
 
-        if chats:
-            for j in chats:
+        if self.chats_container:
+            for j in self.chats_container:
                 chat = [int(i) for i in j.split()]
                 chat = {"id": chat[0], "shift": chat[1]}
 
@@ -229,7 +277,7 @@ class Bot(object):
                     if not flag:
                         self.vk.messages.send(
                             user_id=chat["id"],
-                            message=self.old_data_message,
+                            message=self.irrelevant_data_message,
                             random_id=self.get_random_id()
                         )
 
@@ -248,12 +296,11 @@ class Bot(object):
         """
         Sends information message for one certain user/chat.
         """
-        date = copy(self.last_update[0]) if self.last_update else False
+        # TODO if error, here was copy()
+        date = self.last_update[0] if self.last_update else False
 
         flag = False
         if [localtime()[2], localtime()[1]] == date:
-            date[1] = self.months[date[1] - 1]
-            date = " ".join([str(i) for i in date])
             flag = True
 
         # If information is relevant
@@ -267,7 +314,13 @@ class Bot(object):
             self.send_message(event, message)
 
         else:
-            self.send_message(event, self.old_data_message)
+            self.send_message(event, self.irrelevant_data_message)
+
+    def exclude_from_informing(self, event):
+        """
+        Delete chat's or user's id from container file.
+        """
+        pass
 
     def emergency(self, exception):
         """
@@ -283,6 +336,33 @@ class Bot(object):
     @staticmethod
     def get_random_id():
         return randrange(0, 10**6)
+
+    @staticmethod
+    def key_by_value(dictionary, value):
+        """
+        If the dictionary contains two and more keys linked with given value,
+        function returns first key.
+        :return: key
+        """
+
+        return list(dictionary.keys())[list(dictionary.values()).index(value)]
+
+    @staticmethod
+    def text_processing(text):
+        """
+        Deletes spaces and punctuation marks from given text and
+        :return: processed text
+        """
+        punctuation_marks = [".", ",", "-", "_", "!", "?", ";", ":", "'", '"']
+
+        text = text.lower()
+        # Delete spaces from lowercase text
+        text = text.replace(" ", "")
+
+        for mark in punctuation_marks:
+            text = text.replace(mark, "")
+
+        return text
 
 
 class Manager(object):
@@ -348,8 +428,7 @@ class Manager(object):
                             self.updates_happened[i] = True
 
                             self.bot.last_update = [date, shift1, shift2]
-                            self.bot.inform(self.bot.users_container,
-                                            self.bot.chats_container)
+                            self.bot.inform()
 
                         break
 
