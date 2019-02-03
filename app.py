@@ -18,7 +18,7 @@ class Container(object):
 
     def get_variables(self):
         """
-        Read variables from file, which name was given in declaration
+        Read variables from file, which path was given in declaration
         of Container object.
         """
         result = []
@@ -31,21 +31,57 @@ class Container(object):
 
         return result
 
-    def add(self, elem):
+    def add(self, item):
         """
         Adds new string with variable to the file.
         """
-        # If element hadn't been added before
-        if str(elem) not in self.storage:
-            with open(self.file_path, "a") as f:
-                f.write(str(elem) + "\n")
+        string = str(item)
 
-            self.storage.append(str(elem))
+        # If item hadn't been added before
+        if string not in self.storage:
+            with open(self.file_path, "a") as f:
+                f.write(string + "\n")
+
+            self.storage.append(str(item))
 
             return True
 
         else:
             return False
+
+    def delete(self, item):
+        """
+        Deletes string from file and storage.
+        """
+        string = str(item)
+
+        with open(self.file_path, "r+") as f:
+            lines = f.readlines()
+            f.seek(0)
+
+            i = 0
+            for line in lines:
+                if line != "":
+                    if string not in line:
+                        f.write(line)
+                        i += 1
+
+                    else:
+                        self.storage.pop(i)
+
+            f.truncate()
+
+    def includes(self, item):
+        """
+        Checks every storage cell for a given item.
+        :param item:
+        :return:
+        """
+        for i in self.storage:
+            if str(item) in i:
+                return True
+
+        return False
 
     def __len__(self):
         return len(self.storage)
@@ -82,9 +118,11 @@ class Bot(object):
         self.irrelevant_data_message = "Нет актуальной информации. Попробуй " \
                                        "проверить позже, она обновляется в " \
                                        "6 и 11 часов до полудня."
+
         self.help_message = "Хочешь воспользоваться моими командами? Выбери " \
                             "одну из них при помощи клавиатуры или напиши " \
                             'мне "список команд".'
+
         self.list_of_commands = "Напиши мне команду, чтобы " \
                                 "воспользоваться ей. \n" \
                                 "Cписок и описание моих команд:\n" \
@@ -202,7 +240,7 @@ class Bot(object):
         """
         Adds chat's or user's id to container file.
         """
-        sucess_message = """Теперь вы будете получать уведомления об 
+        success_message = """Теперь вы будете получать уведомления об 
         актировках."""
         decline_message = """Вы уже получаете уведомления об 
         актировках."""
@@ -214,7 +252,7 @@ class Bot(object):
                 result = str(event.user_id) + " " + self.shifts[event.text]
 
                 self.users_container.add(result)
-                self.send_message(event, sucess_message)
+                self.send_message(event, success_message)
 
             else:
                 self.send_message(event, decline_message)
@@ -225,7 +263,7 @@ class Bot(object):
                 result = str(event.chat_id) + " " + self.shifts[event.text]
 
                 self.chats_container.add(result)
-                self.send_message(event, sucess_message)
+                self.send_message(event, success_message)
 
             else:
                 self.send_message(event, decline_message)
@@ -322,7 +360,21 @@ class Bot(object):
         """
         Delete chat's or user's id from container file.
         """
-        pass
+        success_message = "Вы больше не будете получать уведомления об " \
+                          "актировках."
+        decline_message = "Вы и так не получаете уведомления."
+
+        if event.from_user and self.users_container.includes(event.user_id):
+            self.users_container.delete(event.user_id)
+            self.send_message(event, success_message)
+            return
+
+        elif event.from_chat and self.chats_container.includes(event.chat_id):
+            self.chats_container.delete(event.chat_id)
+            self.send_message(event, success_message)
+            return
+
+        self.send_message(event, decline_message)
 
     def emergency(self, exception):
         """
