@@ -79,10 +79,12 @@ class Bot(object):
                        "ноября", "декабря"]
         self.shifts = {"Первая смена": "1", "Вторая смена": "2"}
 
-        self.irrelevant_data_message = "Нет актуальной информации."
+        self.irrelevant_data_message = "Нет актуальной информации. Попробуй " \
+                                       "проверить позже, она обновляется в " \
+                                       "6 и 11 часов до полудня."
         self.help_message = "Хочешь воспользоваться моими командами? Выбери " \
                             "одну из них при помощи клавиатуры или напиши " \
-                            'мне "список команд"'
+                            'мне "список команд".'
         self.list_of_commands = "Напиши мне команду, чтобы " \
                                 "воспользоваться ей. \n" \
                                 "Cписок и описание моих команд:\n" \
@@ -401,6 +403,19 @@ class Manager(object):
         If it's time to check, checks website with demanded information
         for any updates. If they do exist, it transfers them to bot.
         """
+        # If bot doesn't have any information
+        if not self.bot.last_update:
+            date, shift1, shift2 = get_()
+
+            date = date.split(" ")[-1]
+            date, shift1, shift2 = self.check_data(
+                date, shift1, shift2)
+
+            # If anything was, expect boolean 0 was
+            # returned from function
+            if date:
+                self.bot.last_update = [date, shift1, shift2]
+
         # Variable, which contains real time in minutes
         time_now = localtime()[3] * 60 + localtime()[4]
         if (time_now - self.last_iteration_time) >= 1:
