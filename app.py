@@ -271,16 +271,10 @@ class Bot(object):
     def inform(self):
         """
         Sends information message to every user/chat who/which had subscribed.
-        :param users: array, which contains arrays with user's id and shift
-        :param chats: array, which contains arrays with chat's id and shift
         """
         date = copy(self.last_update[0])
-
-        flag = False
-        if self.last_update and [localtime()[2], localtime()[1]] == date:
-            date[1] = self.months[date[1] - 1]
-            date = " ".join([str(i) for i in date])
-            flag = True
+        date[1] = self.months[date[1] - 1]
+        date = " ".join([str(i) for i in date])
 
         if self.users_container:
             for j in self.users_container:
@@ -289,15 +283,6 @@ class Bot(object):
 
                 # Prevents sending message to user, who has banned bot
                 try:
-                    if not flag:
-                        self.vk.messages.send(
-                            user_id=user["id"],
-                            message=self.irrelevant_data_message,
-                            random_id=self.get_random_id()
-                        )
-
-                        continue
-
                     # If information is relevant
                     self.vk.messages.send(
                         user_id=user["id"],
@@ -305,7 +290,9 @@ class Bot(object):
                         random_id=self.get_random_id()
                     )
 
+                # If bot was banned, deletes ID from container
                 except vk_api.exceptions.ApiError:
+                    self.users_container.delete(user["id"])
                     continue
 
         if self.chats_container:
@@ -314,22 +301,16 @@ class Bot(object):
                 chat = {"id": chat[0], "shift": chat[1]}
 
                 try:
-                    if not flag:
-                        self.vk.messages.send(
-                            user_id=chat["id"],
-                            message=self.irrelevant_data_message,
-                            random_id=self.get_random_id()
-                        )
-
-                        continue
-
                     # If information is relevant
                     self.vk.messages.send(
                         user_id=chat["id"],
                         message=date + "\n" + self.last_update[chat["shift"]],
                         random_id=self.get_random_id()
                     )
+
+                # If bot was banned, deletes ID from container
                 except vk_api.exceptions.ApiError:
+                    self.chats_container.delete(chat["id"])
                     continue
 
     def inform_event(self, event):
