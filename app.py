@@ -102,6 +102,8 @@ class Container(object):
 class Bot(object):
     # TODO fix chats
     def __init__(self, vk_session):
+        print("Now I'm working!")
+
         self.vk_session = vk_session
         self.vk = self.vk_session.get_api()
 
@@ -163,20 +165,24 @@ class Bot(object):
         Checks every event which bot can get, answers on messages
         """
         for event in self.longpoll.check():
-            print(event.type)
-            print("***")
             if event.type == VkEventType.MESSAGE_NEW and event.text \
                     and event.to_me:
-                text = self.text_processing(event.text)
+                print("Got message from " + event.peer_id)
+                print("***")
+                try:
+                    text = self.text_processing(event.text)
 
-                if text in self.messages_callback:
-                    self.messages_callback[text](event)
+                    if text in self.messages_callback:
+                        self.messages_callback[text](event)
 
-                elif text in self.messages_answers:
-                    self.send_message(event, self.messages_answers[text])
+                    elif text in self.messages_answers:
+                        self.send_message(event, self.messages_answers[text])
 
-                else:
-                    self.help(event)
+                    else:
+                        self.help(event)
+
+                except vk_api.ApiError:
+                    continue
 
     def send_message(self, event, text):
         if event.from_user:
@@ -272,6 +278,7 @@ class Bot(object):
         """
         Sends information message to every user/chat who/which had subscribed.
         """
+        print("INFORM")
         date = copy(self.last_update[0])
         date[1] = self.months[date[1] - 1]
         date = " ".join([str(i) for i in date])
@@ -427,8 +434,23 @@ class Manager(object):
                 self.check_updates()
                 self.bot.listen()
 
+        except OSError:
+            self.bot.emergency(OSError)
+
+            with open("error.txt", "w") as f:
+                f.write(str(OSError))
+
+            print(OSError)
+
+            self.hold()
+
         except Exception as exception:
             self.bot.emergency(exception)
+
+            with open("error.txt", "w") as f:
+                f.write(str(exception))
+
+            print(exception)
             raise exception
 
     def check_updates(self):
