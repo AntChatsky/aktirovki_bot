@@ -109,8 +109,7 @@ class Bot(object):
 
         self.longpoll = VkLongPoll(self.vk_session)
 
-        self.users_container = Container("containers/users.txt")
-        self.chats_container = Container("containers/chats.txt")
+        self.peer_container = Container("containers/peer.txt")
 
         self.months = ["января", "февраля", "марта", "апреля", "мая",
                        "июня", "июля", "августа", "сентября", "октября",
@@ -167,54 +166,42 @@ class Bot(object):
         for event in self.longpoll.check():
             if event.type == VkEventType.MESSAGE_NEW and event.text \
                     and event.to_me:
-                print("Got message from " + event.peer_id)
+                print("Got message from " + str(event.peer_id))
                 print("***")
-                try:
-                    text = self.text_processing(event.text)
 
-                    if text in self.messages_callback:
-                        self.messages_callback[text](event)
+                text = self.text_processing(event.text)
 
-                    elif text in self.messages_answers:
-                        self.send_message(event, self.messages_answers[text])
+                if text in self.messages_callback:
+                    self.messages_callback[text](event)
 
-                    else:
-                        self.help(event)
+                elif text in self.messages_answers:
+                    self.send_message(event, self.messages_answers[text])
 
-                except vk_api.ApiError:
-                    continue
+                else:
+                    self.help(event)
 
     def send_message(self, event, text):
-        if event.from_user:
+        try:
             self.vk.messages.send(
-                user_id=event.user_id,
+                peer_id=event.peer_id,
                 message=text,
                 random_id=self.get_random_id()
             )
 
-        elif event.from_chat:
-            self.vk.messages.send(
-                chat_id=event.chat_id,
-                message=text,
-                random_id=self.get_random_id()
-            )
+        except vk_api.ApiError:
+            print(vk_api.ApiError.__name__)
 
     def send_keyboard(self, event, message_, keyboard_):
-        if event.from_user:
+        try:
             self.vk.messages.send(
-                user_id=event.user_id,
+                peer_id=event.peer_id,
                 message=message_,
                 keyboard=keyboard_,
                 random_id=self.get_random_id()
             )
 
-        elif event.from_chat:
-            self.vk.messages.send(
-                chat_id=event.chat_id,
-                message=message_,
-                keyboard=keyboard_,
-                random_id=self.get_random_id()
-            )
+        except vk_api.ApiError:
+            print(vk_api.ApiError)
 
     def help(self, event):
         """
@@ -251,80 +238,67 @@ class Bot(object):
         decline_message = """Вы уже получаете уведомления об 
         актировках."""
 
-        if event.from_user:
-            # If user's already been added to database
-            if (str(event.user_id) + " " + self.shifts[event.text]) \
-                    not in self.users_container:
-                result = str(event.user_id) + " " + self.shifts[event.text]
+        request = str(event.peer_id) + " " + self.shifts[event.text]
+        if request not in self.peer_container:
+            self.peer_container.add(request)
+            self.send_message(event, success_message)
 
-                self.users_container.add(result)
-                self.send_message(event, success_message)
+        else:
+            self.send_message(event, decline_message)
 
-            else:
-                self.send_message(event, decline_message)
-
-        elif event.from_chat:
-            if (str(event.chat_id) + " " + self.shifts[event.text]) \
-                    not in self.chats_container:
-                result = str(event.chat_id) + " " + self.shifts[event.text]
-
-                self.chats_container.add(result)
-                self.send_message(event, success_message)
-
-            else:
-                self.send_message(event, decline_message)
-
-    def inform(self):
+    def inform(self, update, inform_first_shift, inform_second_shift):
         """
         Sends information message to every user/chat who/which had subscribed.
         """
-        print("INFORM")
-        date = copy(self.last_update[0])
-        date[1] = self.months[date[1] - 1]
-        date = " ".join([str(i) for i in date])
+        if inform_first_shift or inform_second_shift:
+            print("INFORM")
 
-        if self.users_container:
-            for j in self.users_container:
-                user = [int(i) for i in j.split()]
+            if inform_first_shift:
+                print("Первая смена")
+            elif inform_second_shift:
+                print("Вторая смена")
+
+            self.last_update = update
+            date = copy(self.last_update[0])
+            date[1] = self.months[date[1] - 1]
+            date = " ".join([str(i) for i in date])
+
+            for item in self.peer_container:
+                user = [int(i) for i in item.split()]
                 user = {"id": user[0], "shift": user[1]}
 
-                # Prevents sending message to user, who has banned bot
-                try:
-                    # If information is relevant
-                    self.vk.messages.send(
-                        user_id=user["id"],
-                        message=date + "\n" + self.last_update[user["shift"]],
-                        random_id=self.get_random_id()
-                    )
+                if inform_first_shift and user["shift"] == 1:
+                    # Prevents sending message to user, who has banned bot
+                    try:
+                        self.vk.messages.send(
+                            peer_id=user["id"],
+                            message=date + "\n" + update[1],
+                            random_id=self.get_random_id()
+                        )
 
-                # If bot was banned, deletes ID from container
-                except vk_api.exceptions.ApiError:
-                    self.users_container.delete(user["id"])
-                    continue
+                    except vk_api.ApiError:
+                        # If user has banned bot, deletes his if from storage
+                        self.peer_container.delete(user["id"])
+                        continue
 
-        if self.chats_container:
-            for j in self.chats_container:
-                chat = [int(i) for i in j.split()]
-                chat = {"id": chat[0], "shift": chat[1]}
+                elif inform_second_shift and user["shift"] == 2:
+                    # Prevents sending message to user, who has banned bot
+                    try:
+                        self.vk.messages.send(
+                            peer_id=user["id"],
+                            message=date + "\n" + update[2],
+                            random_id=self.get_random_id()
+                        )
 
-                try:
-                    # If information is relevant
-                    self.vk.messages.send(
-                        user_id=chat["id"],
-                        message=date + "\n" + self.last_update[chat["shift"]],
-                        random_id=self.get_random_id()
-                    )
-
-                # If bot was banned, deletes ID from container
-                except vk_api.exceptions.ApiError:
-                    self.chats_container.delete(chat["id"])
-                    continue
+                    except vk_api.ApiError:
+                        # If user has banned bot, deletes his if from storage
+                        self.peer_container.delete(user["id"])
+                        continue
 
     def inform_event(self, event):
         """
         Sends information message for one certain user/chat.
         """
-        # TODO if error, here was copy()
         date = self.last_update[0] if self.last_update else False
 
         flag = False
@@ -352,22 +326,22 @@ class Bot(object):
                           "актировках."
         decline_message = "Вы и так не получаете уведомления."
 
-        if event.from_user and self.users_container.includes(event.user_id):
-            self.users_container.delete(event.user_id)
+        if self.peer_container.includes(event.peer_id):
+            self.peer_container.delete(event.peer_id)
             self.send_message(event, success_message)
-            return
 
-        elif event.from_chat and self.chats_container.includes(event.chat_id):
-            self.chats_container.delete(event.chat_id)
-            self.send_message(event, success_message)
-            return
-
-        self.send_message(event, decline_message)
+        else:
+            self.send_message(event, decline_message)
 
     def emergency(self, exception):
         """
-        Sends emergency message to the creator
+        Sends emergency message to the creator.
+        Also prints it and writes in file
         """
+        print(type(exception).__name__)
+        with open("error.txt", "w") as f:
+            f.write(type(exception).__name__)
+
         self.vk.messages.send(
             user_id=admin_id,
             message="Помоги своему чаду! Всё сломалось! "
@@ -411,9 +385,16 @@ class Manager(object):
     def __init__(self, vk_session):
         self.bot = Bot(vk_session)
 
-        updates_schedule_hours = [6, 11]
-        self.updates_schedule = [i*60 for i in updates_schedule_hours]
-        self.updates_happened = [False for i in self.updates_schedule]
+        # Time, when info does update in hours
+        self.first_shift_time = 6
+        # Same time, but in minutes
+        self.first_shift_time *= 60
+        self.first_shift_update = False
+
+        self.second_shift_time = 11
+        self.second_shift_time *= 60
+        self.second_shift_update = False
+
         self.last_iteration_time = 0
 
         # This phrase must be in update's text to pass check
@@ -428,29 +409,19 @@ class Manager(object):
                 # If day have passed
                 if localtime()[3] == 0:
                     # Updates every flag
-                    for i in range(len(self.updates_happened)):
-                        self.updates_happened[i] = False
+                    self.first_shift_update = False
+                    self.second_shift_update = False
 
                 self.check_updates()
                 self.bot.listen()
 
+        # Ignores OSError
         except OSError:
             self.bot.emergency(OSError)
-
-            with open("error.txt", "w") as f:
-                f.write(str(OSError))
-
-            print(OSError)
-
-            self.hold()
 
         except Exception as exception:
             self.bot.emergency(exception)
 
-            with open("error.txt", "w") as f:
-                f.write(str(exception))
-
-            print(exception)
             raise exception
 
     def check_updates(self):
@@ -462,45 +433,55 @@ class Manager(object):
         if not self.bot.last_update:
             date, shift1, shift2 = get_()
 
-            date = date.split(" ")[-1]
-            date, shift1, shift2 = self.check_data(
-                date, shift1, shift2)
+            date, shift1, shift2 = self.check_data(date, shift1, shift2)
 
-            # If anything was, expect boolean 0 was
-            # returned from function
+            # If anything, expect boolean 0 was returned from function
             if date:
                 self.bot.last_update = [date, shift1, shift2]
 
         # Variable, which contains real time in minutes
         time_now = localtime()[3] * 60 + localtime()[4]
+
+        # If one minute passed
         if (time_now - self.last_iteration_time) >= 1:
             # Updates iterator
             self.last_iteration_time = time_now
 
-            # Checks if it's time to update data
-            for i in range(len(self.updates_schedule)):
-                # If data hasn't updated yet
-                if not self.updates_happened[i]:
-                    update_time = self.updates_schedule[i]
-                    # If data's going to update soon
-                    if (update_time - time_now) < 30 \
-                            and (time_now - update_time) < 30:
-                        date, shift1, shift2 = get_()
+            # If data hasn't updated yet
+            if not self.first_shift_update \
+                    and (self.first_shift_time - time_now) < 30 \
+                    and (time_now - self.first_shift_time) < 30:
 
-                        date = date.split(" ")[-1]
-                        date, shift1, shift2 = self.check_data(
-                            date, shift1, shift2)
+                date, shift1, shift2 = get_()
 
-                        # If anything was, expect boolean 0 was
-                        # returned from function
-                        if date:
-                            # Updates flag
-                            self.updates_happened[i] = True
+                # If anything, expect boolean 0 was returned
+                date, shift1, shift2 = self.check_data(
+                    date, shift1, shift2)
+                if date:
+                    # Updates flag
+                    self.first_shift_update = True
 
-                            self.bot.last_update = [date, shift1, shift2]
-                            self.bot.inform()
+                    self.bot.inform([date, shift1, shift2],
+                                    inform_first_shift=True,
+                                    inform_second_shift=False)
 
-                        break
+            if not self.second_shift_update \
+                    and (self.second_shift_time - time_now < 30) \
+                    and (time_now - self.second_shift_time < 30):
+
+                date, shift1, shift2 = get_()
+
+                # If anything, expect boolean 0 was returned
+                date, shift1, shift2 = self.check_data(
+                    date, shift1, shift2)
+
+                if date:
+                    # Updates flag
+                    self.second_shift_update = True
+
+                    self.bot.inform([date, shift1, shift2],
+                                    inform_first_shift=False,
+                                    inform_second_shift=True)
 
     def check_data(self, date, shift1, shift2):
         """
@@ -508,6 +489,12 @@ class Manager(object):
         Returns processed data if data is correct, boolean 0
         for every incoming variable if it's incorrect.
         """
+        # Given date must contain [Day of the week, date]
+        if len(date.split(" ")) == 2:
+            date = date.split(" ")[-1]
+
+        else:
+            return False, False, False
 
         # 0: day, 1: month
         date_now = [localtime()[2], localtime()[1]]
