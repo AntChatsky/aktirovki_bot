@@ -100,7 +100,6 @@ class Container(object):
 
 
 class Bot(object):
-    # TODO fix chats
     def __init__(self, vk_session):
         print("Now I'm working!")
 
@@ -246,19 +245,13 @@ class Bot(object):
         else:
             self.send_message(event, decline_message)
 
-    def inform(self, update, inform_first_shift, inform_second_shift):
+    def inform(self, update, shift):
         """
         Sends information message to every user/chat who/which had subscribed.
         """
-        if inform_first_shift or inform_second_shift:
-            print("INFORM")
-
-            if inform_first_shift:
-                print("Первая смена")
-            elif inform_second_shift:
-                print("Вторая смена")
-
-            self.last_update = update
+        if shift:
+            print("INFORM " + ["Первая смена", "Вторая смена"][shift-1])
+            print(update)
             date = copy(self.last_update[0])
             date[1] = self.months[date[1] - 1]
             date = " ".join([str(i) for i in date])
@@ -267,26 +260,12 @@ class Bot(object):
                 user = [int(i) for i in item.split()]
                 user = {"id": user[0], "shift": user[1]}
 
-                if inform_first_shift and user["shift"] == 1:
+                if user["shift"] == shift:
                     # Prevents sending message to user, who has banned bot
                     try:
                         self.vk.messages.send(
                             peer_id=user["id"],
-                            message=date + "\n" + update[1],
-                            random_id=self.get_random_id()
-                        )
-
-                    except vk_api.ApiError:
-                        # If user has banned bot, deletes his if from storage
-                        self.peer_container.delete(user["id"])
-                        continue
-
-                elif inform_second_shift and user["shift"] == 2:
-                    # Prevents sending message to user, who has banned bot
-                    try:
-                        self.vk.messages.send(
-                            peer_id=user["id"],
-                            message=date + "\n" + update[2],
+                            message=date + "\n" + update[shift],
                             random_id=self.get_random_id()
                         )
 
@@ -391,7 +370,7 @@ class Manager(object):
         self.first_shift_time *= 60
         self.first_shift_update = False
 
-        self.second_shift_time = 11
+        self.second_shift_time = 19.3
         self.second_shift_time *= 60
         self.second_shift_update = False
 
@@ -432,8 +411,15 @@ class Manager(object):
         # If bot doesn't have any information
         if not self.bot.last_update:
             date, shift1, shift2 = get_()
+            date = self.process_date(date)
 
-            date, shift1, shift2 = self.check_data(date, shift1, shift2)
+            shift1 = self.check_data(date, shift1, shift=1)
+            shift2 = self.check_data(date, shift2, shift=2)
+
+            if not shift1:
+                shift1 = "Первая смена: " + self.bot.irrelevant_data_message
+            if not shift2:
+                shift2 = "Вторая смена: " + self.bot.irrelevant_data_message
 
             # If anything, expect boolean 0 was returned from function
             if date:
@@ -454,16 +440,16 @@ class Manager(object):
 
                 date, shift1, shift2 = get_()
 
-                # If anything, expect boolean 0 was returned
-                date, shift1, shift2 = self.check_data(
-                    date, shift1, shift2)
-                if date:
+                date = self.process_date(date)
+                shift1 = self.check_data(date, shift1, shift=1)
+
+                # If anything, except False was returned
+                if date and shift1:
                     # Updates flag
                     self.first_shift_update = True
 
-                    self.bot.inform([date, shift1, shift2],
-                                    inform_first_shift=True,
-                                    inform_second_shift=False)
+                    self.bot.inform([date, shift1, False], shift=1)
+                    self.bot.last_update[1] = shift1
 
             if not self.second_shift_update \
                     and (self.second_shift_time - time_now < 30) \
@@ -471,55 +457,54 @@ class Manager(object):
 
                 date, shift1, shift2 = get_()
 
-                # If anything, expect boolean 0 was returned
-                date, shift1, shift2 = self.check_data(
-                    date, shift1, shift2)
+                date = self.process_date(date)
+                shift2 = self.check_data(date, shift2, shift=2)
 
-                if date:
+                # If anything, except False was returned
+                if date and shift2:
                     # Updates flag
                     self.second_shift_update = True
 
-                    self.bot.inform([date, shift1, shift2],
-                                    inform_first_shift=False,
-                                    inform_second_shift=True)
+                    self.bot.inform([date, False, shift2], shift=2)
+                    self.bot.last_update[2] = shift2
 
-    def check_data(self, date, shift1, shift2):
+    def check_data(self, date, text, shift):
         """
         Checks data, which was read from website by several criteria.
         Returns processed data if data is correct, boolean 0
         for every incoming variable if it's incorrect.
         """
         # Given date must contain [Day of the week, date]
-        if len(date.split(" ")) == 2:
-            date = date.split(" ")[-1]
-
-        else:
-            return False, False, False
+        if not date:
+            return False
 
         # 0: day, 1: month
         date_now = [localtime()[2], localtime()[1]]
 
-        date = date.split(".")
-        date.pop()
-        date = [int(i) for i in date]
-
         # Compares real date with date given as an argument
         # and checks the text for the key phrase
-        if date_now == date and (self.key_phrase in shift1
-                                 or self.key_phrase in shift2):
-            if self.key_phrase in shift1:
-                from_, to = re.findall("\d{1,2}", shift1)
-                shift1 = "Первая смена: занятия отменяются с " \
-                         + from_ + " до " + to + " класса."
+        if date_now == date and self.key_phrase in text:
+            from_, to = re.findall("\d{1,2}", text)
 
-            if self.key_phrase in shift2:
-                from_, to = re.findall("\d{1,2}", shift2)
-                shift2 = "Вторая смена: занятия отменяются с " \
-                         + from_ + " до " + to + " класса."
+            text = "Первая смена" if shift == 1 else "Вторая смена"
+            text += ": занятия отменяются с " \
+                    + from_ + " до " + to + " класса."
 
-            return date, shift1, shift2
+            print(text)
+            return text
 
-        return False, False, False
+        return False
+
+    @staticmethod
+    def process_date(date):
+        if len(date.split(" ")) == 2:
+            date = date.split(" ")[-1].split(".")
+            date.pop()
+            date = [int(i) for i in date]
+            return date
+
+        else:
+            return False
 
 
 if __name__ == '__main__':
