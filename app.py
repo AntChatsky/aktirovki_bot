@@ -1,10 +1,13 @@
 # -*- coding: UTF-8 -*-.
 
+import time
 from time import localtime
 import re
 from random import randrange
-from copy import copy
+import logging
+import logging.config
 import vk_api
+from vk_api.vk_api import VkApiMethod
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.longpoll import VkLongPoll, VkEventType
 from get_info import get_
@@ -16,7 +19,7 @@ class Container(object):
         self.file_path = file_path
         self.storage = self.get_variables()
 
-    def get_variables(self):
+    def get_variables(self) -> list:
         """
         Read variables from file, which path was given in declaration
         of Container object.
@@ -31,10 +34,11 @@ class Container(object):
 
         return result
 
-    def add(self, item):
+    def add(self, item) -> bool:
         """
         Adds new string with variable to the file.
         """
+        # TODO Use SQLite database
         string = str(item)
 
         # If item hadn't been added before
@@ -71,7 +75,7 @@ class Container(object):
 
             f.truncate()
 
-    def includes(self, item):
+    def includes(self, item) -> bool:
         """
         Checks every storage cell for a given item.
         :param item:
@@ -80,7 +84,6 @@ class Container(object):
         for i in self.storage:
             if str(item) in i:
                 return True
-
         return False
 
     def __len__(self):
@@ -101,10 +104,15 @@ class Container(object):
 
 class Bot(object):
     def __init__(self, vk_session):
-        print("Now I'm working!")
+        self.logger_root = logging.getLogger("bot")
+        self.logger_root.info("Bot was created")
+
+        self.logger_messages = logging.getLogger("messages")
 
         self.vk_session = vk_session
         self.vk = self.vk_session.get_api()
+
+        self.vk_methods = VkApiMethod(self.vk)
 
         self.longpoll = VkLongPoll(self.vk_session)
 
@@ -126,12 +134,12 @@ class Bot(object):
         self.list_of_commands = "Напиши мне команду, чтобы " \
                                 "воспользоваться ей. \n" \
                                 "Cписок и описание моих команд:\n" \
-                                '"Получать уведомления об актировках"' \
+                                '"Получать уведомления"' \
                                 "- я предложу вам выбрать смену, в " \
                                 "которой вы обучаетесь, чтобы информировать " \
                                 "вас об актировках при появлении информации " \
                                 "о них.\n" \
-                                '"Больше не получать уведомления"' \
+                                '"Больше не получать"' \
                                 "- я больше не буду присылать вам " \
                                 "уведомления 😢😢😢\n" \
                                 '"Актуальная информация"' \
@@ -142,9 +150,12 @@ class Bot(object):
 
         self.messages_callback = {"Получать уведомления об актировках":
                                       self.get_shift,
+                                  "Получать уведомления": self.get_shift,
                                   "Первая смена": self.add_to_inform,
                                   "Вторая смена": self.add_to_inform,
                                   "Больше не получать уведомления":
+                                      self.exclude_from_informing,
+                                  "Больше не получать":
                                       self.exclude_from_informing,
                                   "Актуальная информация": self.inform_event
                                   }
@@ -165,17 +176,15 @@ class Bot(object):
         for event in self.longpoll.check():
             if event.type == VkEventType.MESSAGE_NEW and event.text \
                     and event.to_me:
-                print("Got message from " + str(event.peer_id))
-                print("***")
+                self.logger_messages.info(
+                    "New message from %s" % str(event.peer_id))
 
                 text = self.text_processing(event.text)
 
                 if text in self.messages_callback:
                     self.messages_callback[text](event)
-
                 elif text in self.messages_answers:
                     self.send_message(event, self.messages_answers[text])
-
                 else:
                     self.help(event)
 
@@ -187,8 +196,8 @@ class Bot(object):
                 random_id=self.get_random_id()
             )
 
-        except vk_api.ApiError:
-            print(vk_api.ApiError.__name__)
+        except Exception as exception:
+            self.emergency(exception)
 
     def send_keyboard(self, event, message_, keyboard_):
         try:
@@ -199,8 +208,8 @@ class Bot(object):
                 random_id=self.get_random_id()
             )
 
-        except vk_api.ApiError:
-            print(vk_api.ApiError)
+        except Exception as exception:
+            self.emergency(exception)
 
     def help(self, event):
         """
@@ -232,6 +241,8 @@ class Bot(object):
         """
         Adds chat's or user's id to container file.
         """
+        self.logger_messages.info("Attempt. Add user to inform list")
+
         success_message = """Теперь вы будете получать уведомления об 
         актировках."""
         decline_message = """Вы уже получаете уведомления об 
@@ -239,20 +250,22 @@ class Bot(object):
 
         request = str(event.peer_id) + " " + self.shifts[event.text]
         if request not in self.peer_container:
+            self.logger_messages.info("The attempt was successful.")
             self.peer_container.add(request)
             self.send_message(event, success_message)
 
         else:
+            self.logger_messages.info("Declined.")
             self.send_message(event, decline_message)
 
     def inform(self, update, shift):
         """
         Sends information message to every user/chat who/which had subscribed.
         """
+        self.logger_root.info("Informing %s shift." % str(shift))
+
         if shift:
-            print("INFORM " + ["Первая смена", "Вторая смена"][shift-1])
-            print(update)
-            date = copy(self.last_update[0])
+            date = update[0]
             date[1] = self.months[date[1] - 1]
             date = " ".join([str(i) for i in date])
 
@@ -269,7 +282,12 @@ class Bot(object):
                             random_id=self.get_random_id()
                         )
 
-                    except vk_api.ApiError:
+                    except vk_api.ApiError as exception:
+                        self.logger_root.error(
+                            msg="Error: %s\n"
+                                "User was excluded "
+                                "from informing" % exception.__str__())
+
                         # If user has banned bot, deletes his if from storage
                         self.peer_container.delete(user["id"])
                         continue
@@ -278,6 +296,7 @@ class Bot(object):
         """
         Sends information message for one certain user/chat.
         """
+        self.logger_messages.info("Information was requested")
         date = self.last_update[0] if self.last_update else False
 
         flag = False
@@ -301,6 +320,8 @@ class Bot(object):
         """
         Delete chat's or user's id from container file.
         """
+        self.logger_messages.info("User was excluded from informing")
+
         success_message = "Вы больше не будете получать уведомления об " \
                           "актировках."
         decline_message = "Вы и так не получаете уведомления."
@@ -317,14 +338,16 @@ class Bot(object):
         Sends emergency message to the creator.
         Also prints it and writes in file
         """
-        print(type(exception).__name__)
-        with open("error.txt", "w") as f:
-            f.write(type(exception).__name__)
+        self.logger_root.error(logging.exception(exception=exception,
+                                                 msg=" "))
 
         self.vk.messages.send(
             user_id=admin_id,
             message="Помоги своему чаду! Всё сломалось! "
-                    "Вот тип ошибки:" + type(exception).__name__,
+                    "Вот тип ошибки: "
+                    "{err_type}\n Вот сообщение ошибки:{err_msg}".format(
+                     err_type=type(exception).__name__,
+                     err_msg=exception.__str__()),
             random_id=self.get_random_id()
         )
 
@@ -362,6 +385,9 @@ class Bot(object):
 
 class Manager(object):
     def __init__(self, vk_session):
+        self.logger = logging.getLogger("manager")
+        self.logger.info("Manager was created")
+
         self.bot = Bot(vk_session)
 
         # Time, when info does update in hours
@@ -370,7 +396,7 @@ class Manager(object):
         self.first_shift_time *= 60
         self.first_shift_update = False
 
-        self.second_shift_time = 19.3
+        self.second_shift_time = 11
         self.second_shift_time *= 60
         self.second_shift_update = False
 
@@ -394,14 +420,10 @@ class Manager(object):
                 self.check_updates()
                 self.bot.listen()
 
-        # Ignores OSError
-        except OSError:
-            self.bot.emergency(OSError)
-
         except Exception as exception:
             self.bot.emergency(exception)
 
-            raise exception
+            self.hold()
 
     def check_updates(self):
         """
@@ -423,6 +445,8 @@ class Manager(object):
 
             # If anything, expect boolean 0 was returned from function
             if date:
+                self.logger.info("Bot 'last_updates' array was filled")
+
                 self.bot.last_update = [date, shift1, shift2]
 
         # Variable, which contains real time in minutes
@@ -437,6 +461,7 @@ class Manager(object):
             if not self.first_shift_update \
                     and (self.first_shift_time - time_now) < 30 \
                     and (time_now - self.first_shift_time) < 30:
+                self.logger.info("Update first shift information attempt")
 
                 date, shift1, shift2 = get_()
 
@@ -445,6 +470,9 @@ class Manager(object):
 
                 # If anything, except False was returned
                 if date and shift1:
+                    self.logger.info("The attempt was successful. Data: %s"
+                                     % shift1)
+
                     # Updates flag
                     self.first_shift_update = True
 
@@ -454,6 +482,7 @@ class Manager(object):
             if not self.second_shift_update \
                     and (self.second_shift_time - time_now < 30) \
                     and (time_now - self.second_shift_time < 30):
+                self.logger.info("Update second shift information attempt")
 
                 date, shift1, shift2 = get_()
 
@@ -462,6 +491,9 @@ class Manager(object):
 
                 # If anything, except False was returned
                 if date and shift2:
+                    self.logger.info("The attempt was successful. Data: %s"
+                                     % shift1)
+
                     # Updates flag
                     self.second_shift_update = True
 
@@ -490,13 +522,16 @@ class Manager(object):
             text += ": занятия отменяются с " \
                     + from_ + " до " + to + " класса."
 
-            print(text)
             return text
 
         return False
 
     @staticmethod
     def process_date(date):
+        """
+        :param date: <day of the week>, day.month.year
+        :return: list(day, month)
+        """
         if len(date.split(" ")) == 2:
             date = date.split(" ")[-1].split(".")
             date.pop()
@@ -509,7 +544,16 @@ class Manager(object):
 
 if __name__ == '__main__':
     # Here VkApi object is created and logged in with group token
-    vk_session = vk_api.VkApi(token=vk_token)
-    manager = Manager(vk_session)
-    manager.hold()
+    start = time.time()
+    logging.config.fileConfig("logs/logging.conf")
+    logger = logging.getLogger("root")
+    logger.critical("Start: \n")
 
+    try:
+        vk_session = vk_api.VkApi(token=vk_token)
+        manager = Manager(vk_session)
+        manager.hold()
+
+    except Exception as exception:
+        finish = time.time()
+        logger.critical("Finish %s\n" % str(finish - start))
