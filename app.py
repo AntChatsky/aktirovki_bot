@@ -1,105 +1,18 @@
 # -*- coding: UTF-8 -*-.
 
 import time
-from time import localtime
-import re
-from random import randrange
 import logging
 import logging.config
+import re
+from random import randrange
+import sqlite3
 import vk_api
 from vk_api.vk_api import VkApiMethod
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.longpoll import VkLongPoll, VkEventType
+from database import UsersDatabase
 from get_info import get_
 from DO_NOT_PUSH_TO_GIT import vk_token, admin_id
-
-
-class Container(object):
-    def __init__(self, file_path):
-        self.file_path = file_path
-        self.storage = self.get_variables()
-
-    def get_variables(self) -> list:
-        """
-        Read variables from file, which path was given in declaration
-        of Container object.
-        """
-        result = []
-        with open(self.file_path, "r") as f:
-            for line in f:
-                if line[-1:] == "\n":
-                    result.append(line[:-1])
-                else:
-                    result.append(line)
-
-        return result
-
-    def add(self, item) -> bool:
-        """
-        Adds new string with variable to the file.
-        """
-        # TODO Use SQLite database
-        string = str(item)
-
-        # If item hadn't been added before
-        if string not in self.storage:
-            with open(self.file_path, "a") as f:
-                f.write(string + "\n")
-
-            self.storage.append(str(item))
-
-            return True
-
-        else:
-            return False
-
-    def delete(self, item):
-        """
-        Deletes string from file and storage.
-        """
-        string = str(item)
-
-        with open(self.file_path, "r+") as f:
-            lines = f.readlines()
-            f.seek(0)
-
-            i = 0
-            for line in lines:
-                if line != "":
-                    if string not in line:
-                        f.write(line)
-                        i += 1
-
-                    else:
-                        self.storage.pop(i)
-
-            f.truncate()
-
-    def includes(self, item) -> bool:
-        """
-        Checks every storage cell for a given item.
-        :param item:
-        :return:
-        """
-        for i in self.storage:
-            if str(item) in i:
-                return True
-        return False
-
-    def __len__(self):
-        return len(self.storage)
-
-    def __getitem__(self, i):
-        return self.storage[i]
-
-    def __iter__(self):
-        yield from self.storage
-
-    def __bool__(self):
-        if self.storage:
-            return True
-
-        return False
 
 
 class Bot(object):
@@ -116,7 +29,7 @@ class Bot(object):
 
         self.longpoll = VkLongPoll(self.vk_session)
 
-        self.peer_container = Container("containers/peer.txt")
+        self.database = UsersDatabase("containers/database.sqlite")
 
         self.months = ["января", "февраля", "марта", "апреля", "мая",
                        "июня", "июля", "августа", "сентября", "октября",
@@ -239,7 +152,7 @@ class Bot(object):
 
     def add_to_inform(self, event):
         """
-        Adds chat's or user's id to container file.
+        Adds chat's or user's id to the database.
         """
         self.logger_messages.info("Attempt. Add user to inform list")
 
@@ -248,10 +161,16 @@ class Bot(object):
         decline_message = """Вы уже получаете уведомления об 
         актировках."""
 
-        request = str(event.peer_id) + " " + self.shifts[event.text]
-        if request not in self.peer_container:
+        shift = int(self.shifts[event.text])
+        user_subs = self.database.get_user(event.peer_id)
+
+        if not user_subs:
+            self.database.add_user(event.peer_id)
+            user_subs = [False, False]
+
+        if not user_subs[shift-1]:
             self.logger_messages.info("The attempt was successful.")
-            self.peer_container.add(request)
+            self.database.subscribe(event.peer_id, shift)
             self.send_message(event, success_message)
 
         else:
@@ -269,11 +188,10 @@ class Bot(object):
             date[1] = self.months[date[1] - 1]
             date = " ".join([str(i) for i in date])
 
-            for item in self.peer_container:
-                user = [int(i) for i in item.split()]
-                user = {"id": user[0], "shift": user[1]}
+            for user in self.database.get_all():
+                user = {"id": user[0], 1: user[1], 2: user[2]}
 
-                if user["shift"] == shift:
+                if user[shift]:
                     # Prevents sending message to user, who has banned bot
                     try:
                         self.vk.messages.send(
@@ -286,10 +204,10 @@ class Bot(object):
                         self.logger_root.error(
                             msg="Error: %s\n"
                                 "User was excluded "
-                                "from informing" % exception.__str__())
+                                "from informing" % e.__str__())
 
                         # If user has banned bot, deletes his if from storage
-                        self.peer_container.delete(user["id"])
+                        self.database.delete(user["id"])
                         continue
 
     def inform_event(self, event):
@@ -300,7 +218,7 @@ class Bot(object):
         date = self.last_update[0] if self.last_update else False
 
         flag = False
-        if [localtime()[2], localtime()[1]] == date:
+        if [time.localtime()[2], time.localtime()[1]] == date:
             flag = True
 
         # If information is relevant
@@ -326,8 +244,8 @@ class Bot(object):
                           "актировках."
         decline_message = "Вы и так не получаете уведомления."
 
-        if self.peer_container.includes(event.peer_id):
-            self.peer_container.delete(event.peer_id)
+        if self.database.get_user(event.peer_id):
+            self.database.delete(event.peer_id)
             self.send_message(event, success_message)
 
         else:
@@ -336,10 +254,15 @@ class Bot(object):
     def emergency(self, exception):
         """
         Sends emergency message to the creator.
-        Also prints it and writes in file
+        Also prints it and writes to the file
         """
         self.logger_root.error(logging.exception(exception=exception,
-                                                 msg=" "))
+                                                 msg=" "
+                                                 .join
+                                                 ([type(exception).__name__,
+                                                  exception.__str__()])
+                                                 )
+                               )
 
         self.vk.messages.send(
             user_id=admin_id,
@@ -412,7 +335,7 @@ class Manager(object):
         try:
             while True:
                 # If day have passed
-                if localtime()[3] == 0:
+                if time.localtime()[3] == 0:
                     # Updates every flag
                     self.first_shift_update = False
                     self.second_shift_update = False
@@ -450,7 +373,7 @@ class Manager(object):
                 self.bot.last_update = [date, shift1, shift2]
 
         # Variable, which contains real time in minutes
-        time_now = localtime()[3] * 60 + localtime()[4]
+        time_now = time.localtime()[3] * 60 + time.localtime()[4]
 
         # If one minute passed
         if (time_now - self.last_iteration_time) >= 1:
@@ -511,7 +434,7 @@ class Manager(object):
             return False
 
         # 0: day, 1: month
-        date_now = [localtime()[2], localtime()[1]]
+        date_now = [time.localtime()[2], time.localtime()[1]]
 
         # Compares real date with date given as an argument
         # and checks the text for the key phrase
@@ -549,11 +472,13 @@ if __name__ == '__main__':
     logger = logging.getLogger("root")
     logger.critical("Start: \n")
 
+    vk_session = vk_api.VkApi(token=vk_token)
+    manager = Manager(vk_session)
+
     try:
-        vk_session = vk_api.VkApi(token=vk_token)
-        manager = Manager(vk_session)
         manager.hold()
 
     except Exception as exception:
         finish = time.time()
         logger.critical("Finish %s\n" % str(finish - start))
+        manager.bot.emergency(exception)

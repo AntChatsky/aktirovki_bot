@@ -1,2 +1,5 @@
 vk_api
+lxml
 bs4
+sqlite3
+pyowm
